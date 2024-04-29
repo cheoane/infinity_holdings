@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Online Catalogue</title>
+  <link href="output.css" rel="stylesheet">
+  <style>
+   
+
+
+  </style>
+</head>
+<body class="bg-gray-100">
+  <div class="container mx-auto px-4 py-8 relative overflow-hidden">
+    <div id="catalogue" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 transition-transform duration-1000 transform"></div>
+    <button id="prevButton" class="absolute left-0 bottom-0 transform -translate-y-1/2 bg-blue-500 text-white px-4 py-2 rounded-l-md hover:bg-blue-600">Previous</button>
+    <button id="nextButton" class="absolute right-0 bottom-0 transform -translate-y-1/2 bg-blue-500 text-white px-4 py-2 rounded-r-md hover:bg-blue-600">Next</button>
+  </div>
+
+  <script>
+  const products = [
+  { name: 'Garage 1', price: 13000.99, image: 'img/garage1.jpeg' },
+  { name: 'Garage 2', price: 10000.99, image: 'img/garage2.jpeg' },
+  { name: 'Garage 3', price: 15000.99, image: 'img/garage3.jpeg' },
+  { name: 'Garage 4', price: 14000.99, image: 'img/garage4.jpeg' },
+  { name: 'Garage 5', price: 17000.99, image: 'img/garage5.jpg' },
+  { name: 'Garage 6', price: 20000.99, image: 'img/garage6.jpg' },
+  { name: 'Door 1', price: 18000.99, image: 'img/door1.jpg' },
+  { name: 'Door 2', price: 10000.99, image: 'img/door2.jpeg' },
+  { name: 'Door 3', price: 8000.99, image: 'img/door3.jpg' },
+  { name: 'Door 4', price: 4000.99, image: 'img/door4.jpeg' },
+  { name: 'Door 5', price: 60000.99, image: 'img/door5.jpeg' },
+  { name: 'Door 6', price: 3000.99, image: 'img/door6.jpg' },
+  { name: 'Gate 1', price: 19000.99, image: 'img/gate1.jpeg' },
+  { name: 'Gate 2', price: 24000.99, image: 'img/gate2.jpg' },
+  { name: 'Gate 3', price: 30000.99, image: 'img/gate3.jpeg' },
+  { name: 'Gate 4', price: 21000.99, image: 'img/gate4.jpg' },
+  { name: 'Gate 5', price: 22000, image: 'img/gate5.jpg' },
+  { name: 'gate 6', price: 30000, image: 'img/gate6.jpg' },
+  // Add more products as needed
+];
+
+let currentPage = 0;
+const itemsPerPage = 6;
+const catalogueContainer = document.getElementById('catalogue');
+const prevButton = document.getElementById('prevButton');
+const nextButton = document.getElementById('nextButton');
+
+function renderPage(pageIndex) {
+  catalogueContainer.innerHTML = '';
+  const startIndex = pageIndex * itemsPerPage;
+  const endIndex = Math.min(startIndex + itemsPerPage, products.length);
+
+  for (let i = startIndex; i < endIndex; i++) {
+    const product = products[i];
+    const productCard = document.createElement('div');
+    productCard.className = 'bg-white p-4 rounded-lg shadow-md';
+    
+    const productImage = document.createElement('img');
+    productImage.src = product.image;
+    productImage.alt = product.name;
+    productImage.className = 'w-full mb-4';
+    
+    const productName = document.createElement('h2');
+    productName.textContent = product.name;
+    productName.className = 'text-xl font-semibold mb-2';
+    
+    const productPrice = document.createElement('p');
+    productPrice.textContent = 'M' + product.price.toFixed(2);
+    productPrice.className = 'text-gray-700';
+    
+    productCard.appendChild(productImage);
+    productCard.appendChild(productName);
+    productCard.appendChild(productPrice);
+    
+    catalogueContainer.appendChild(productCard);
+  }
+}
+
+prevButton.addEventListener('click', () => {
+  if (currentPage > 0) {
+    currentPage--;
+    renderPage(currentPage);
+    catalogueContainer.classList.remove('page-turn-right');
+    catalogueContainer.classList.add('page-turn-left');
+  }
+});
+
+nextButton.addEventListener('click', () => {
+  if (currentPage < Math.ceil(products.length / itemsPerPage) - 1) {
+    currentPage++;
+    renderPage(currentPage);
+    catalogueContainer.classList.remove('page-turn-left');
+    catalogueContainer.classList.add('page-turn-right');
+  }
+});
+
+// Initial rendering
+renderPage(currentPage);
+
+
+
+
+  </script>
+</body>
+</html>
